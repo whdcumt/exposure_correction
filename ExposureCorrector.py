@@ -37,7 +37,7 @@ class ExposureCorrector():
 	w = 0
 	h = 0
 	
-	k = 25
+	k = 50
 
 	def show_segmentation(self):
 		out_img = np.zeros((self.h, self.w)).astype(np.uint8)
@@ -121,11 +121,12 @@ class ExposureCorrector():
 			self.weights[(i, i)] = 0
 
 	def segment_img(self):
-		num_changes = 1
+		# num_changes = 1
 	
 		components = self.components.keys()
 
 		for c in components:
+			num_changes = 1
 			while(num_changes > 0):
 				if (c in self.components):
 					num_changes = self.update_component(c)
@@ -134,9 +135,6 @@ class ExposureCorrector():
 					
 			print "Component: " + str(c)
 
-		# print "Number of merges: " + str(num_changes)
-		# print "Total components: " + str(len(self.components.keys()))
-		# print ""
 
 		return self.components
 
@@ -213,8 +211,8 @@ class ExposureCorrector():
 		# print "updating weights and neighbors"
 		for component in c2_nonzero:
 			# update connection to neighbors
-			if (self.adj_mat[c1, component] == 1) or (c2_adj[0, component] == 1):
-				self.adj_mat[c1, component] = 1
+			# if (self.adj_mat[c1, component] == 1) or (c2_adj[0, component] == 1):
+			self.adj_mat[c1, component] = 1
 			
 			# update min neighbor weights
 			if ((c1, component) in self.weights) and ((c2, component) in self.weights):
